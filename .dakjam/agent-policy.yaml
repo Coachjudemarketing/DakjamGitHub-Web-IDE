@@ -1,0 +1,21 @@
+version: 1.0.0
+policy: full-capacity-prebuild-checkpoint
+mode: full_capacity
+pre_build:
+  checkpoint_required: true
+  checkpoint_count: 1
+  explicit_owner_approval: true
+  bind_approval_to_plan_digest: true
+  agent_self_approval: false
+  allowed_before_approval: [inspect, research, requirements_analysis, architecture_design, security_evaluation, scope_definition, test_planning, ci_cd_planning]
+  blocked_before_approval: [implementation, build, compile_generated_changes, test_generated_changes, debug_generated_changes, deploy, release]
+post_approval:
+  full_execution: true
+  routine_reapproval_required: false
+scope_change:
+  material_change_invalidates_approval: true
+permanent_boundaries:
+  prohibit: [checkpoint_bypass, agent_self_approval, secret_exposure, evidence_falsification, silent_privilege_expansion, destructive_production_change_outside_approved_scope]
+mcp:
+  unlimited_access_as_default: false
+  scoped_identity_and_permissions: true
