@@ -1,4 +1,4 @@
-version: 1.0.0
+version: 1.1.0
 policy: full-capacity-prebuild-checkpoint
 mode: full_capacity
 pre_build:
@@ -6,6 +6,8 @@ pre_build:
   checkpoint_count: 1
   explicit_owner_approval: true
   bind_approval_to_plan_digest: true
+  reject_incomplete_checkpoint: true
+  required_checkpoint_fields: [objective, architecture, affected_assets, dependencies, permissions, security_privacy_implications, risks, test_strategy, acceptance_criteria, expected_result]
   agent_self_approval: false
   allowed_before_approval: [inspect, research, requirements_analysis, architecture_design, security_evaluation, scope_definition, test_planning, ci_cd_planning]
   blocked_before_approval: [implementation, build, compile_generated_changes, test_generated_changes, debug_generated_changes, deploy, release]
@@ -14,8 +16,9 @@ post_approval:
   routine_reapproval_required: false
 scope_change:
   material_change_invalidates_approval: true
+  reapproval_triggers: [scope, architecture, permissions, security_posture, cost, production_data_handling, deployment_target]
 permanent_boundaries:
-  prohibit: [checkpoint_bypass, agent_self_approval, secret_exposure, evidence_falsification, silent_privilege_expansion, destructive_production_change_outside_approved_scope]
+  prohibit: [checkpoint_bypass, agent_self_approval, secret_exposure, evidence_falsification, silent_privilege_expansion, destructive_production_change_outside_approved_scope, disable_security]
 mcp:
   unlimited_access_as_default: false
   scoped_identity_and_permissions: true
